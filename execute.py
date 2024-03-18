@@ -4,7 +4,7 @@ import evaluation.evaluation as eval
 
 
 
-process_trainer = subprocess.Popen(["python","trainer.py","-tdata/train.txt","-c"+str(0.5),"-rdebug","-mglove-twitter-200","-8"])
+process_trainer = subprocess.Popen(["python","trainer.py","-tdata/train.txt","-c"+str(0.5),"-rdebug","-mglove-twitter-200","-l8","-k100"])
 process_trainer.wait()
 process_trainer.kill()
 output_file = open("output.txt","w")
