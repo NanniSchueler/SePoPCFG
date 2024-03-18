@@ -8,8 +8,8 @@ Responsible for running the top level training session
 Moving this here to get it out of the main() function
 
 """
-import fasttext
-import fasttext.util
+#import fasttext
+#import fasttext.util
 from gensim.models import KeyedVectors
 import gensim
 import pickle
