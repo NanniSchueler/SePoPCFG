@@ -1,0 +1,4 @@
+chardet
+gensim
+fasttext
+fasteners
