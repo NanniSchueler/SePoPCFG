@@ -239,7 +239,42 @@ def _load_base_structures(base_structures, base_directory, skip_brute, base_stru
                 replacement.insert(i+1,'C' + len_str)
 
             i += 1
-
+    
+    required_length = 8
+    minimum_digit_amount = 1
+    minimum_special_character_amount = 1
+    special_character_amount = 0
+    digit_amount = 0
+    total_length = 0
+    for base in base_structures:
+        for item in base['replacements']:
+            if item[0] == "Y":
+                required_length -= 3
+            if item[0] != 'M' and item[0] != 'C':
+                total_length += int(item[1:])
+            if item[0] == 'D':
+                digit_amount += int(item[1:])
+            if item[0] == 'X':
+                special_character_amount += int(item[1:])
+            else:
+                continue
+        if ((total_length < required_length) or (digit_amount < minimum_digit_amount) or
+                (special_character_amount < minimum_special_character_amount)):
+            base['replacements'] = None
+        required_length = 8
+        total_length = 0
+        digit_amount = 0
+        #print(special_character_amount) <=
+        special_character_amount = 0
+    #a
+    temp = base_structures
+    #print("-----------------------------------------------------------------------------------------------------------")
+    #for base in base_structures:
+    #    if not base['replacements'] is None:
+    #        print(base)
+    #a
+    filtered_items = filter(lambda item: item['replacements'] is not None, temp)
+    base_structures = list(filtered_items)
     return True
 
 

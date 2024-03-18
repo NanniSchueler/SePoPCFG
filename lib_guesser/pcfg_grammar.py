@@ -177,7 +177,9 @@ class PcfgGrammar:
         """
 
         pt_list = []
-
+        for item in self.base:
+            if item['replacements'] is None:
+                continue
         # Loop through all of the base structures to initalize them
         for item in self.base:
             pt_item = {
