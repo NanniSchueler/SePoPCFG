@@ -10,8 +10,8 @@ Moving this here to get it out of the main() function
 """
 #import fasttext
 #import fasttext.util
-from gensim.models import KeyedVectors
-import gensim
+#from gensim.models import KeyedVectors
+#import gensim
 import pickle
 import gensim.downloader as api
 import os
@@ -58,6 +58,7 @@ def run_trainer(program_info, base_directory):
         False: If any errors occured
     """
 
+    print("Entered run_trainer init")
     arg_model = program_info['model']
     model_list =[]
     
@@ -65,6 +66,7 @@ def run_trainer(program_info, base_directory):
 
 
     for item in arg_model:
+        print("Entered for loop")
         filename = os.path.join('embedding_models/',item + '.pkl' )
         try:
             print("loading embedding model:"+ item)

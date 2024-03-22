@@ -240,9 +240,9 @@ def _load_base_structures(base_structures, base_directory, skip_brute, base_stru
 
             i += 1
     
-    required_length = 8
-    minimum_digit_amount = 1
-    minimum_special_character_amount = 1
+    required_length = 0
+    minimum_digit_amount = 0
+    minimum_special_character_amount = 0
     special_character_amount = 0
     digit_amount = 0
     total_length = 0
@@ -261,7 +261,7 @@ def _load_base_structures(base_structures, base_directory, skip_brute, base_stru
         if ((total_length < required_length) or (digit_amount < minimum_digit_amount) or
                 (special_character_amount < minimum_special_character_amount)):
             base['replacements'] = None
-        required_length = 8
+        required_length = 0
         total_length = 0
         digit_amount = 0
         #print(special_character_amount) <=

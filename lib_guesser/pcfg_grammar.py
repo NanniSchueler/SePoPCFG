@@ -181,7 +181,7 @@ class PcfgGrammar:
             if item['replacements'] is None:
                 continue
         # Loop through all of the base structures to initalize them
-        for item in self.base:
+        #for item in self.base:
             pt_item = {
                 'base_prob': item['prob'],
                 'pt': []

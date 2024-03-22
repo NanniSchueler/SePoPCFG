@@ -301,6 +301,7 @@ def main():
         None
     """
 
+
     # Information about this program
     program_info = {
 
@@ -330,8 +331,10 @@ def main():
         'max_len':8,
     }
 
+
     print_banner()
     print("Version: " + str(program_info['version']))
+    print("Entered main func in trainer")
 
     # Parsing the command line
     if not parse_command_line(program_info):
@@ -382,6 +385,8 @@ def main():
         return
 
     # Start training the ruleset
+
+    print("Start training ruleset")
     if not run_trainer(program_info, base_directory):
         print("The training did not complete successfully. Exiting")
 
