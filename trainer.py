@@ -334,7 +334,7 @@ def main():
 
     print_banner()
     print("Version: " + str(program_info['version']))
-    print("Entered main func in trainer")
+    #print("Entered main func in trainer")
 
     # Parsing the command line
     if not parse_command_line(program_info):
