@@ -12,7 +12,7 @@ MultiWordDetector class
 """
 
 
-def detect_alpha(section, multiword_detector,model_list, cache_model_neighbours, program_info):
+def detect_alpha(section, multiword_detector,model_list, cache_model_neighbours, program_info,second_call):
     """
     Looks for alpha strings in a section
 
@@ -119,29 +119,29 @@ def detect_alpha(section, multiword_detector,model_list, cache_model_neighbours,
 
                     new_words_model = []
                     help_list = []
-
-                    if program_info["k"] != 0:
-                        for index, model in enumerate(model_list):
-                            
-                            #if word in cache_model_neighbours[index]:
-                            #if word in model:
-                                if word not in cache_model_neighbours[index]:
-                                    try:
-                                        new_words_current_embedding = model.get_nearest_neighbors(word, k = program_info['k'])
-                                        cache_model_neighbours[index][word] = new_words_current_embedding
-                                        new_words_model.append(new_words_current_embedding) 
-                                    except Exception:
-                                        pass
-                                    try:
-                                        new_words_current_embedding = model.most_similar(word, topn = program_info['k']) 
-                                        cache_model_neighbours[index][word] = new_words_current_embedding
-                                        new_words_model.append(new_words_current_embedding) 
-                                    except Exception:
-                                        pass
-                                    # cache_model_neighbours[index][word] = new_words_current_embedding
-                                    # new_words_model = new_words_current_embedding
-                                else:
-                                        new_words_model.append(cache_model_neighbours[index][word][:program_info['k']])
+                    if second_call == False:
+                        if program_info["k"] != 0:
+                            for index, model in enumerate(model_list):
+                                
+                                #if word in cache_model_neighbours[index]:
+                                #if word in model:
+                                    if word not in cache_model_neighbours[index]:
+                                        try:
+                                            new_words_current_embedding = model.get_nearest_neighbors(word, k = program_info['k'])
+                                            cache_model_neighbours[index][word] = new_words_current_embedding
+                                            new_words_model.append(new_words_current_embedding) 
+                                        except Exception:
+                                            pass
+                                        try:
+                                            new_words_current_embedding = model.most_similar(word, topn = program_info['k']) 
+                                            cache_model_neighbours[index][word] = new_words_current_embedding
+                                            new_words_model.append(new_words_current_embedding) 
+                                        except Exception:
+                                            pass
+                                        # cache_model_neighbours[index][word] = new_words_current_embedding
+                                        # new_words_model = new_words_current_embedding
+                                    else:
+                                            new_words_model.append(cache_model_neighbours[index][word][:program_info['k']])
                                 
                         if new_words_model:
                             
@@ -175,7 +175,7 @@ def detect_alpha(section, multiword_detector,model_list, cache_model_neighbours,
     return section, None, None
 
 
-def alpha_detection(section_list, multiword_detector,model_list,program_info,cache_model_neighbours):
+def alpha_detection(section_list, multiword_detector,model_list,program_info,cache_model_neighbours,second_call):
     """
     Finds alpha strings in the password
 
@@ -206,7 +206,7 @@ def alpha_detection(section_list, multiword_detector,model_list,program_info,cac
         # by keyboard walk detection
         if section_list[index][1] is None:
 
-            parsing, alphas, masks = detect_alpha(section_list[index], multiword_detector,model_list,cache_model_neighbours,program_info)
+            parsing, alphas, masks = detect_alpha(section_list[index], multiword_detector,model_list,cache_model_neighbours,program_info,second_call)
 
             # If an alpha string was detected
             if alphas:

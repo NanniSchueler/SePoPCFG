@@ -92,7 +92,7 @@ class PCFGPasswordParser:
             try:
             
                 model_path = './model_cache/'+ item +'-cache_k1000.pkl'
-                #print("found "+ item + " chace")
+                print("found "+ item + " chace")
                 self.cache_model_neighbours[index] =  pickle.load(open(model_path,'rb'))
                 #self.cache_model_neighbours.append(pickle.load(open('./model_cache/glove-twitter-200.pkl','rb')))
                 #self.cache_model_neighbours.append(pickle.load(open('./model_cache/fasttext_en_cache.pkl','rb')))
@@ -100,7 +100,7 @@ class PCFGPasswordParser:
                 self.cache_model_neighbours[index] = {}
                 print("initialize "+ item +  " cache")
 
-    def parse(self, password,model_list, program_info):
+    def parse(self, password,model_list, program_info, second_call = False):
         """
         Main function called to parse an individual password
 
@@ -163,23 +163,33 @@ class PCFGPasswordParser:
             self.multiword_detector,
             model_list,
             program_info,
-            self.cache_model_neighbours
+            self.cache_model_neighbours,
+            second_call
             )
 
-        self._update_counter_len_indexed(self.count_alpha, found_alpha_strings)
-        self._update_counter_len_indexed(self.count_alpha_masks, found_mask_list)
+        if second_call == False:
+            for word in found_alpha_strings:
+                # if word == "嵐":
+                #     print("嵐")
+                self.parse(word,model_list,program_info,True)
+                self._update_counter_len_indexed(self.count_alpha_masks, found_mask_list)
+        if second_call == True:
+            self._update_counter_len_indexed(self.count_alpha, found_alpha_strings)
+        
+        
 
         # Identify pure digit strings in the dataset
 
         found_digit_strings = digit_detection(section_list)
 
+
         self._update_counter_len_indexed(self.count_digits, found_digit_strings)
 
         # Categorize everything else as other
+        if second_call == False:
+            found_other_strings = other_detection(section_list)
 
-        found_other_strings = other_detection(section_list)
-
-        self._update_counter_len_indexed(self.count_other, found_other_strings)
+            self._update_counter_len_indexed(self.count_other, found_other_strings)
 
         # Calculate the counts of the individual sections for PRINCE dictionary
         # creation
@@ -188,12 +198,14 @@ class PCFGPasswordParser:
 
         # Now after all the other parsing is done, create the base structures
 
-        is_supported, base_structure = base_structure_creation(section_list)
+        if second_call == False:
 
-        if is_supported:
-            self.count_base_structures[base_structure] += 1
+            is_supported, base_structure = base_structure_creation(section_list)
 
-        self.count_raw_base_structures[base_structure] += 1
+            if is_supported:
+                self.count_base_structures[base_structure] += 1
+
+            self.count_raw_base_structures[base_structure] += 1
 
         return True
 
