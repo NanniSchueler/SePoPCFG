@@ -7,7 +7,7 @@ train_test_list_path = 'data/'
 #test_file = 'test.txt'
 #pass_list_files = ["twitter_rules_k650_order1_with_omen0.4.txt","twitter_rules_k650_order1_with_omen0.2.txt"]
 #pass_list_files = ["wiki_giga_rules_k650_order1_with_omen0.4.txt",]
-pass_list_files = ["1.txt"] #,"fasttext_wiki_rules_k650_order1_without_omen.txt 
+#pass_list_files = ["1.txt"] #,"fasttext_wiki_rules_k650_order1_without_omen.txt 
 #pass_list_files = ["spg_suggestion_list.txt"]
 
 def load_password_list(file_name):
@@ -49,7 +49,7 @@ hit_percentages_over_guesses = []
 compare_differences
 
 
-def main(test_file):
+def main(test_file,pass_list_files):
     test_set = load_password_list(train_test_list_path + test_file)
     for p in range(len(pass_list_files)):
         print('loading Password Suggestion List')
