@@ -16,7 +16,7 @@ import json
 import codecs
 
 
-def load_grammar(rule_name, base_directory, version, skip_brute, skip_case, base_structure_folder):
+def load_grammar(rule_name, base_directory, version, skip_brute, skip_case, base_structure_folder, policy):
     """
     Main function to load up a grammar from disk
 
@@ -59,6 +59,7 @@ def load_grammar(rule_name, base_directory, version, skip_brute, skip_case, base
 
     """
 
+
     # Holds general information about the grammar
     ruleset_info = {
         'rule_name':rule_name,
@@ -67,14 +68,14 @@ def load_grammar(rule_name, base_directory, version, skip_brute, skip_case, base
 
     config = configparser.ConfigParser()
     if not _load_config(ruleset_info, base_directory, config):
-        raise Exception
+        raise Exception("Load Config")
 
     # Holds all of the grammar with the exception of the base structures and
     # OMEN probabilities
     grammar = {}
 
     if not _load_terminals(ruleset_info, grammar, base_directory, config, skip_case):
-        raise Exception
+        raise Exception("Load  Terminals")
 
     # Holds the base structures
     base_structures = []
@@ -82,9 +83,10 @@ def load_grammar(rule_name, base_directory, version, skip_brute, skip_case, base
             base_structures,
             base_directory,
             skip_brute,
-            base_structure_folder):
-
-        raise Exception
+            base_structure_folder,
+            policy
+    ):
+        raise Exception("Loading base structures did not work")
 
     return grammar, base_structures, ruleset_info
 
@@ -129,7 +131,7 @@ def load_omen_keyspace(base_directory):
     return omen_keyspace
 
 
-def _load_base_structures(base_structures, base_directory, skip_brute, base_structure_folder):
+def _load_base_structures(base_structures, base_directory, skip_brute, base_structure_folder, policy):
     """
     Loads the base structures for the grammar
 
@@ -156,6 +158,7 @@ def _load_base_structures(base_structures, base_directory, skip_brute, base_stru
 
         False: Config failed to load
     """
+    #print("Here is the policy value:", policy)
 
     filename = os.path.join(base_directory,base_structure_folder,"grammar.txt")
 
@@ -239,10 +242,22 @@ def _load_base_structures(base_structures, base_directory, skip_brute, base_stru
                 replacement.insert(i+1,'C' + len_str)
 
             i += 1
-    
-    required_length = 0
-    minimum_digit_amount = 0
-    minimum_special_character_amount = 0
+
+    if policy is None:
+        print("No policy was specified - generating passwords without constraints", file=sys.stderr)
+        required_length = 0
+        minimum_digit_amount = 0
+        minimum_special_character_amount = 0
+    else:
+        print("Policy defined:", file=sys.stderr)
+        policy_list = policy.split("#")
+        required_length = int(policy_list[0])
+        print("Required minimum length:", required_length, file=sys.stderr)
+        minimum_digit_amount = int(policy_list[1])
+        print("Required minimum number digits:", minimum_digit_amount, file=sys.stderr)
+        minimum_special_character_amount = int(policy_list[2])
+        print("Required minimum number special characters:", minimum_special_character_amount, "\n", file=sys.stderr)
+
     special_character_amount = 0
     digit_amount = 0
     total_length = 0
@@ -250,18 +265,22 @@ def _load_base_structures(base_structures, base_directory, skip_brute, base_stru
         for item in base['replacements']:
             if item[0] == "Y":
                 required_length -= 3
+                digit_amount = 4
             if item[0] != 'M' and item[0] != 'C':
                 total_length += int(item[1:])
             if item[0] == 'D':
                 digit_amount += int(item[1:])
-            if item[0] == 'X':
+            if (item[0] == 'X') or (item[0] == 'O'):
                 special_character_amount += int(item[1:])
             else:
                 continue
         if ((total_length < required_length) or (digit_amount < minimum_digit_amount) or
                 (special_character_amount < minimum_special_character_amount)):
             base['replacements'] = None
-        required_length = 0
+        if policy is None:
+            required_length = 0
+        else:
+            required_length = int(policy_list[0])
         total_length = 0
         digit_amount = 0
         #print(special_character_amount) <=

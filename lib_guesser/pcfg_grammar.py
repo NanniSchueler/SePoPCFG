@@ -30,14 +30,16 @@ class PcfgGrammar:
     """
 
     def __init__(self,
-        rule_name,
-        base_directory,
-        version,
-        save_file = None,
-        skip_brute = False,
-        skip_case = False,
-        debug = False,
-        base_structure_folder = "Grammar"):
+                 rule_name,
+                 base_directory,
+                 version,
+                 save_file = None,
+                 skip_brute = False,
+                 skip_case = False,
+                 debug = False,
+                 base_structure_folder = "Grammar",
+                 policy = 0
+                 ):
         """
         Initializes the class and all the data structures
 
@@ -67,7 +69,6 @@ class PcfgGrammar:
         Returns:
             PcfgGrammar
         """
-
         # Debugging and Status Information
         self.rulename = rule_name
         self.debug = debug
@@ -80,7 +81,8 @@ class PcfgGrammar:
             version,
             skip_brute,
             skip_case,
-            base_structure_folder
+            base_structure_folder,
+            policy
             )
 
         self.encoding = self.ruleset_info['encoding']
