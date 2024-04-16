@@ -24,7 +24,7 @@ process_trainer.wait()
 process_trainer.kill()
 output_file = open("suggestion_list_pcfg_semantic.txt", "w")
 
-process = subprocess.Popen(["python", "pcfg_guesser.py", "-ssession2", "-rdebug", "-n10000000", "-p0#0#0"], stdout=output_file, universal_newlines=True)
+process = subprocess.Popen(["python", "pcfg_guesser.py", "-ssession2", "-rdebug", "-n55000000", "-p0#0#0"], stdout=output_file, universal_newlines=True)
 process.wait()
 process.kill()
 # TODO: Test set Pfad anpassen

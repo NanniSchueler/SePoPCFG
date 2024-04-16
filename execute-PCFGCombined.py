@@ -24,7 +24,7 @@ process_trainer.wait()
 process_trainer.kill()
 output_file = open("suggestion_list_pcfg_combined.txt", "w")
 # TODO: Bitte sicherstellen, dass die Policy richtig angegeben ist (siehe oben!) Im Moment: Mindestlänge 8 und mind. 1 Zahl
-process = subprocess.Popen(["python", "pcfg_guesser.py", "-ssession2", "-rdebug", "-n10000000", "-p8#1#0"], stdout=output_file, universal_newlines=True)
+process = subprocess.Popen(["python", "pcfg_guesser.py", "-ssession2", "-rdebug", "-n55000000", "-p8#1#0"], stdout=output_file, universal_newlines=True)
 process.wait()
 process.kill()
 # TODO: Test set Pfad anpassen
