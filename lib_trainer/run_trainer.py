@@ -349,12 +349,12 @@ def run_trainer(program_info, base_directory):
     #Save the cache in the cached_model_neighbours directoriy.
     for index, item in enumerate(arg_model):
         try:
-            
+            print("Saving cache to disk")
             filename = os.path.join('model_cache/',item + '-cache_k1000.pkl')
             with open(filename,'wb') as file:
-                pickle.dump(pcfg_parser.cache_model_neighbours[index],file)    
+                pickle.dump(pcfg_parser.cache_model_neighbours[index], file)
         except:
-            print("something went wrong saving the cache")
+            print("Something went wrong saving the cache")
 
     # Save the pcfg data to disk
     if not save_pcfg_data(

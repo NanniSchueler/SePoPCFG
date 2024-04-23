@@ -19,12 +19,12 @@ import evaluation.evaluation as eval
 
 print("Starting Training Process...")
 # TODO: Train set Pfad anpassen
-process_trainer = subprocess.Popen(["python", "trainer.py", "-tdata/train.txt", "-c"+str(0.6), "-rdebug", "-mglove-twitter-200", "-l8", "-k0", "-n3"])
+process_trainer = subprocess.Popen(["python", "trainer.py", "-tdata/train.txt", "-c"+str(0.6), "-rpcfg", "-mglove-twitter-200", "-l8", "-k0", "-n3"])
 process_trainer.wait()
 process_trainer.kill()
 output_file = open("suggestion_list_pcfg_policy.txt", "w")
 # TODO: Bitte sicherstellen, dass die Policy richtig angegeben ist (siehe oben!) Im Moment: Mindestlänge 8 und mind. 1 Zahl
-process = subprocess.Popen(["python", "pcfg_guesser.py", "-ssession2", "-rdebug", "-n55000000", "-p8#1#0"], stdout=output_file, universal_newlines=True)
+process = subprocess.Popen(["python", "pcfg_guesser.py", "-ssession2", "-rpcfg", "-n55000000", "-p8#1#0"], stdout=output_file, universal_newlines=True)
 process.wait()
 process.kill()
 # TODO: Test set Pfad anpassen

@@ -9,7 +9,7 @@ Before downloading our tool you need Python3 installed on your machine.
 All requirements are listed in the requirements.txt file.
 
 Note: Windows users might have problems installing fasttext, as this is only tailored to Linux and Unix systems (according to their [webseite](https://fasttext.cc/docs/en/support.html)
-Use [this link](https://www.lfd.uci.edu/~gohlke/pythonlibs/#fasttext) to find and download the correct wheel file for you system and restart your programm.
+Use [this link](https://www.lfd.uci.edu/~gohlke/pythonlibs/#fasttext) or [this link](https://pypi.tuna.tsinghua.edu.cn/simple/gensim/) to find and download the correct wheel file for you system and restart your programm.
 We included our used version in this git, you can locally install it by using pip.
 
 ## Quick Start Guide

@@ -19,12 +19,12 @@ import evaluation.evaluation as eval
 
 print("Starting Training Process...")
 # TODO: Train set Pfad anpassen
-process_trainer = subprocess.Popen(["python", "trainer.py", "-tdata/train.txt", "-c"+str(0.5), "-rdebug", "-mglove-twitter-200", "-l8", "-k425", "-n3"])
+process_trainer = subprocess.Popen(["python", "trainer.py", "-tdata/train.txt", "-c"+str(0.5), "-rsemantic", "-mglove-twitter-200", "-l8", "-k425", "-n3"])
 process_trainer.wait()
 process_trainer.kill()
 output_file = open("suggestion_list_pcfg_semantic.txt", "w")
 
-process = subprocess.Popen(["python", "pcfg_guesser.py", "-ssession2", "-rdebug", "-n55000000", "-p0#0#0"], stdout=output_file, universal_newlines=True)
+process = subprocess.Popen(["python", "pcfg_guesser.py", "-ssession2", "-rsemantic", "-n55000000", "-p0#0#0"], stdout=output_file, universal_newlines=True)
 process.wait()
 process.kill()
 # TODO: Test set Pfad anpassen
