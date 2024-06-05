@@ -8,7 +8,7 @@ Responsible for running the top level training session
 Moving this here to get it out of the main() function
 
 """
-#import fasttext
+import fasttext
 #import fasttext.util
 #from gensim.models import KeyedVectors
 #import gensim
@@ -61,7 +61,7 @@ def run_trainer(program_info, base_directory):
     #print("Entered run_trainer init")
     arg_model = program_info['model']
     model_list =[]
-    
+    program_info_model_list = []
 
 
 
@@ -69,16 +69,18 @@ def run_trainer(program_info, base_directory):
         #print("Entered for loop")
         filename = os.path.join('embedding_models/',item + '.pkl' )
         try:
-            print("loading embedding model:"+ item)
+            
             model_list.append(pickle.load(open(filename,'rb')))
+            print("loading embedding model:"+ item)
             
         except:
             try:
-                print("loading embedding model:"+ item)
+                
                 model = api.load(item)
                 model_list.append(model)
+                print("loading embedding model:"+ item)
             except:
-                print("Error: unknown word embedding")
+               
                 try:
                     #Falls das model nicht in der Gensim bibliothek enthalten ist wird im der Model 
                     #liste einfach der name des Models als string gespeichert. Später wird dann versucht 
@@ -86,8 +88,11 @@ def run_trainer(program_info, base_directory):
                     #komplett zu laden hat den Arbeitsspeicher überlastet. Deshalb muss der Cache dieser modelle vorher erstellt werden.
                     helplist = item.split()
                     for model in helplist:
+                        program_info_model_list.append(model)
+                        model = fasttext.load_model(model)
                         model_list.append(model)
-                        program_info[model] = model_list
+                    program_info[model] = program_info_model_list
+                    print("loading embedding model:"+ item)
                      
                     #model = fasttext.load_model(item)
                 except:
@@ -95,7 +100,7 @@ def run_trainer(program_info, base_directory):
                     #     model = KeyedVectors.load_word2vec_format("embedding_models/"+item, binary=False)
                     # except:
                     
-                        print("Error")
+                        print("Error: loading embedding model was not succesfull")
                         return
             #model_list.append(model)
             #del model
