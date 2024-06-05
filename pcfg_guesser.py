@@ -181,14 +181,6 @@ def parse_command_line(program_info):
         choices = program_info['supported_modes']
     )
 
-    parser.add_argument(
-        '--policy',
-        '-p',
-        help='Parameter for specifying the policy',
-        #type=int,
-        default=program_info['policy']
-    )
-
     # Parse all the args and save them
     args=parser.parse_args()
 
@@ -202,9 +194,6 @@ def parse_command_line(program_info):
     program_info['skip_brute'] = args.skip_brute
     program_info['skip_case'] = args.skip_case
     program_info['cracking_mode'] = args.mode
-
-    # Policy Options
-    program_info['policy'] = args.policy
 
     # Debugging Options
     program_info['debug'] = args.debug
@@ -251,14 +240,10 @@ def main():
         'skip_brute': False,
         'skip_case': False,
 
-        # Policy Options
-        'policy': None,
-
         # Debugging Options
         'debug': False,
 
     }
-
 
     print_banner()
     print("Version: " + str(program_info['version']),file=sys.stderr)
@@ -293,11 +278,9 @@ def main():
     #
     # Note, if the ruleset can not be loaded, (for example it doesn't exist),
     # it will throw an exception.
-
     try:
         print("Loading Ruleset: " + str(program_info['rule_name']),file=sys.stderr)
         print('',file=sys.stderr)
-        #print(program_info)
         pcfg = PcfgGrammar(
             program_info['rule_name'],
             base_directory,
@@ -305,10 +288,11 @@ def main():
             save_filename,
             skip_brute = program_info['skip_brute'],
             skip_case = program_info['skip_case'],
-            debug = program_info['debug'],
-            policy = program_info['policy']
+            debug = program_info['debug']
             )
+
     except:
+        print("Exiting")
         return
 
     # Initiate cracking mode specific features
