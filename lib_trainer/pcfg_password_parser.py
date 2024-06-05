@@ -92,8 +92,9 @@ class PCFGPasswordParser:
             try:
             
                 model_path = './model_cache/'+ item +'-cache_k1000.pkl'
-                print("found "+ item + " chace")
+                
                 self.cache_model_neighbours[index] =  pickle.load(open(model_path,'rb'))
+                print("found "+ item + " cahce")
                 #self.cache_model_neighbours.append(pickle.load(open('./model_cache/glove-twitter-200.pkl','rb')))
                 #self.cache_model_neighbours.append(pickle.load(open('./model_cache/fasttext_en_cache.pkl','rb')))
             except:
