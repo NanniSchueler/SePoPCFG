@@ -1,0 +1,13 @@
+import fasttext.util
+print("download fasttext language embedding models...")
+fasttext.util.download_model('en', if_exists='ignore')  
+fasttext.util.download_model('de', if_exists='ignore')  
+fasttext.util.download_model('es', if_exists='ignore')  
+fasttext.util.download_model('fi', if_exists='ignore')  
+fasttext.util.download_model('fr', if_exists='ignore')  
+fasttext.util.download_model('it', if_exists='ignore')  
+fasttext.util.download_model('nl', if_exists='ignore')  
+fasttext.util.download_model('pl', if_exists='ignore')  
+fasttext.util.download_model('pt', if_exists='ignore') 
+fasttext.util.download_model('tr', if_exists='ignore')
+print("download successful")  
